@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 public class RMCalculator extends JFrame {
  private Container pane;
+ private Container pane2;
 
  private JButton plus;
 
@@ -25,16 +26,16 @@ public class RMCalculator extends JFrame {
  private JButton zero;
  private JButton decimal;
  private JButton equal;
-
+ private JTextField output;
   //CONSTRUCTOR SETS EVERYTHING UP
   public RMCalculator() {
      this.setTitle("RM Calculator");
      this.setSize(500,800);
      this.setLocation(100,100);
      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    
-     pane = this.getContentPane();
-     pane.setLayout(new FlowLayout());  //NOTE!! THIS CAN BE CHANGED (see below)
+     
+     JPanel pan1 = new JPanel();
+     pan1.setLayout(new GridLayout(5,4));
     
      clear = new JButton("C");
 	 posneg = new JButton("+/-");
@@ -55,26 +56,42 @@ public class RMCalculator extends JFrame {
      zero = new JButton("0");
      decimal = new JButton(".");
      equal = new JButton("=");
+     
+     pan1.add(clear);
+     pan1.add(posneg);
+     pan1.add(percent);
+     pan1.add(divide);
+     pan1.add(seven);
+     pan1.add(eight);
+     pan1.add(nine);
+     pan1.add(multiply);
+     pan1.add(four);
+     pan1.add(five);
+     pan1.add(six);
+     pan1.add(subtract);
+     pan1.add(one);
+     pan1.add(two);
+     pan1.add(three);
+     pan1.add(add);
+     pan1.add(zero);
+     pan1.add(decimal);
+     pan1.add(equal);
 
-     pane.add(clear);
-     pane.add(posneg);
-     pane.add(percent);
-     pane.add(divide);
-     pane.add(seven);
-     pane.add(eight);
-     pane.add(nine);
-     pane.add(multiply);
-     pane.add(four);
-     pane.add(five);
-     pane.add(six);
-     pane.add(subtract);
-     pane.add(one);
-     pane.add(two);
-     pane.add(three);
-     pane.add(add);
-     pane.add(zero);
-     pane.add(decimal);
-     pane.add(equal);
+// RESULT
+
+    JPanel pan2 = new JPanel();
+    pan2.setLayout(new FlowLayout());
+    pan2.add(output = new JTextField(20));
+    output.setHorizontalAlignment(JTextField.CENTER);
+    output.setEditable(false);
+
+    JPanel p = new JPanel();
+    p.setLayout(new GridLayout(2, 1));
+    p.add(pan2);
+    p.add(pan1);
+
+
+    add(p);
 
  }
 
