@@ -1,32 +1,55 @@
-
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
+
 public class RMCalculator extends JFrame {
+
+
  private Container pane;
  private Container pane2;
 
- private JButton plus;
 
+// INITIALIZE FUNCTION BUTTONS
+ private JButton plus;
  private JButton clear;
  private JButton posneg;
  private JButton percent;
  private JButton divide;
+ private JButton add;
+ private JButton multiply;
+ private JButton decimal;
+ private JButton equal;
+ private JButton subtract;
+
+// INITIALIZE NUMBER BUTTONS
  private JButton seven;
  private JButton eight;
  private JButton nine;
- private JButton multiply;
  private JButton four;
  private JButton five;
  private JButton six;
- private JButton subtract;
  private JButton one;
  private JButton two;
  private JButton three;
- private JButton add;
  private JButton zero;
- private JButton decimal;
- private JButton equal;
+ 
+ 
+// INITIALIZE OUTPUT AND DISPLAY
  private JTextField output;
+ String display = "";
+
+ 
+// INITIALIZE BOOLEANS FOR EACH FUNCTION
+Boolean adding = false ;
+Boolean subtracting = false ;
+Boolean dividing = false ;
+Boolean multiplying = false ;
+
+// INITIALIZE DOUBLES FOR tempORARY STORAGE
+    private double temp;
+    private double solutionTemp;
+
   //CONSTRUCTOR SETS EVERYTHING UP
   public RMCalculator() {
      this.setTitle("RM Calculator");
@@ -89,11 +112,158 @@ public class RMCalculator extends JFrame {
     p.setLayout(new GridLayout(2, 1));
     p.add(pan2);
     p.add(pan1);
-
-
     add(p);
+    
+    one.addActionListener(new ListenOne());
+    two.addActionListener(new ListenTwo());
+    three.addActionListener(new ListenThree());
+    four.addActionListener(new ListenFour());
+    five.addActionListener(new ListenFive());
+    six.addActionListener(new ListenSix());
+    seven.addActionListener(new ListenSeven());
+    eight.addActionListener(new ListenEight());
+    nine.addActionListener(new ListenNine());
+    zero.addActionListener(new ListenZero());
 
+    add.addActionListener(new ListenAdd());
+    subtract.addActionListener(new ListenSubtract());
+    multiply.addActionListener(new ListenMultiply());
+    divide.addActionListener(new ListenDivide());
+    equal.addActionListener(new ListenSolve());
+    clear.addActionListener(new ListenClear());
  }
+
+class ListenClear implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        output.setText("");
+        adding = false ;
+        subtracting = false ;
+        multiplying = false ;
+        dividing = false ;
+
+        temp = 0;
+        solutionTemp =0 ;
+    }
+}
+
+// NUMBER BUTTONS
+
+class ListenOne implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "1");
+    }
+}
+class ListenTwo implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "2");
+    }
+}
+class ListenThree implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "3");
+    }
+}
+class ListenFour implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "4");
+    }
+}
+class ListenFive implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "5");
+    }
+}
+class ListenSix implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "6");
+    }
+}
+class ListenSeven implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "7");
+    }
+}
+class ListenEight implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "8");
+    }
+}
+class ListenNine implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "9");
+    }
+}
+class ListenZero implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        display = output.getText();
+        output.setText(display + "0");
+    }
+}
+
+
+// MATH FUNCTION BUTTONS
+
+    class ListenAdd implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        temp = Double.parseDouble(output.getText());
+                    output.setText("");
+                    adding = true ;
+    }
+}
+class ListenSubtract implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        temp = Double.parseDouble(output.getText());
+        output.setText("");
+        subtracting =true;
+    }
+}
+class ListenMultiply implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        temp = Double.parseDouble(output.getText());
+        output.setText("");
+        multiplying =true;
+
+    }
+}
+class ListenDivide implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+        temp = Double.parseDouble(output.getText());
+        output.setText("");
+        dividing =true;
+    }
+}
+class ListenSolve implements ActionListener {
+    public void actionPerformed(ActionEvent x) {
+                    solutionTemp = Double.parseDouble(  output.getText() );
+                    if ( adding == true  )
+                        solutionTemp = solutionTemp + temp;
+
+                    else if ( subtracting == true  )
+                        solutionTemp = solutionTemp - temp;
+                    else if ( multiplying == true  )
+                        solutionTemp = solutionTemp * temp;
+                    else if ( dividing == true  )
+                        solutionTemp = solutionTemp / temp;
+        output.setText(  Double.toString( solutionTemp ) );
+
+        adding = false ;
+        subtracting = false ;
+        multiplying = false ;
+        dividing = false ;
+
+
+    }
+}
+
 
   //MAIN JUST INSTANTIATES + MAKE VISIBLE
   public static void main(String[] args) {
