@@ -218,7 +218,7 @@ class ListenDeci implements ActionListener{
 	output.setText(display + ".");
     }
 }
- 
+  
 
 // MATH FUNCTION BUTTONS
 
