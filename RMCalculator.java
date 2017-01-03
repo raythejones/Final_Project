@@ -41,6 +41,7 @@ public class RMCalculator extends JFrame {
 
  
 // INITIALIZE BOOLEANS FOR EACH FUNCTION
+Boolean percentBoolean=false;
 Boolean adding = false ;
 Boolean subtracting = false ;
 Boolean dividing = false ;
@@ -61,7 +62,7 @@ Boolean multiplying = false ;
      pan1.setLayout(new GridLayout(5,4));
     
      clear = new JButton("C");
-	 posneg = new JButton("+/-");
+     posneg = new JButton("+/-");
      percent = new JButton("%");
      divide = new JButton("/");
      seven = new JButton("7");
@@ -131,6 +132,9 @@ Boolean multiplying = false ;
     divide.addActionListener(new ListenDivide());
     equal.addActionListener(new ListenSolve());
     clear.addActionListener(new ListenClear());
+    decimal.addActionListener(new ListenDeci());
+    posneg.addActionListener(new ListenPosNeg());
+    percent.addActionListener(new ListenPercent());
  }
 
 class ListenClear implements ActionListener {
@@ -146,7 +150,7 @@ class ListenClear implements ActionListener {
     }
 }
 
-// NUMBER BUTTONS
+// NUMBER BUTTONS & Decimal Button
 
 class ListenOne implements ActionListener {
     public void actionPerformed(ActionEvent x) {
@@ -208,22 +212,34 @@ class ListenZero implements ActionListener {
         output.setText(display + "0");
     }
 }
-
+class ListenDeci implements ActionListener{
+    public void actionPerformed(ActionEvent i){
+	display = output.getText();
+	output.setText(display + ".");
+    }
+}
+ 
 
 // MATH FUNCTION BUTTONS
 
-    class ListenAdd implements ActionListener {
+class ListenAdd implements ActionListener {
     public void actionPerformed(ActionEvent x) {
         temp = Double.parseDouble(output.getText());
-                    output.setText("");
-                    adding = true ;
+	output.setText("");
+	subtracting =false;
+	multiplying=false;
+	dividing =false;
+	adding = true ;
     }
 }
 class ListenSubtract implements ActionListener {
     public void actionPerformed(ActionEvent x) {
         temp = Double.parseDouble(output.getText());
         output.setText("");
+	adding=false;
+	multiplying=false;
         subtracting =true;
+	dividing=false;
     }
 }
 class ListenMultiply implements ActionListener {
@@ -231,7 +247,9 @@ class ListenMultiply implements ActionListener {
         temp = Double.parseDouble(output.getText());
         output.setText("");
         multiplying =true;
-
+	adding=false;
+	subtracting=false;
+	dividing=false;
     }
 }
 class ListenDivide implements ActionListener {
@@ -239,6 +257,28 @@ class ListenDivide implements ActionListener {
         temp = Double.parseDouble(output.getText());
         output.setText("");
         dividing =true;
+	multiplying=false;
+	adding=false;
+	subtracting=false;
+    }
+}
+    //Needs at least a number other than zero to work for its intended use(Makes a number either become positive or negative)
+class ListenPosNeg implements ActionListener{
+    public void actionPerformed(ActionEvent i){
+	display = output.getText();
+        output.setText(Double.parseDouble(display)* -1 + "");
+    }
+}
+    //The first number is the whole and the second number is the percentage 
+class ListenPercent implements ActionListener{
+    public void actionPerformed(ActionEvent i){
+	temp=Double.parseDouble(output.getText());
+	output.setText("");
+	dividing=false;
+	multiplying=false;
+	adding=false;
+	subtracting=false;
+	percentBoolean=true;
     }
 }
 class ListenSolve implements ActionListener {
@@ -248,11 +288,13 @@ class ListenSolve implements ActionListener {
                         solutionTemp = solutionTemp + temp;
 
                     else if ( subtracting == true  )
-                        solutionTemp = solutionTemp - temp;
+                        solutionTemp = temp-solutionTemp;
                     else if ( multiplying == true  )
                         solutionTemp = solutionTemp * temp;
                     else if ( dividing == true  )
-                        solutionTemp = solutionTemp / temp;
+                        solutionTemp = temp / solutionTemp;
+		    else if(percentBoolean=true)
+			solutionTemp=solutionTemp * (temp/100);
         output.setText(  Double.toString( solutionTemp ) );
 
         adding = false ;
