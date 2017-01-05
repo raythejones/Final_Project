@@ -12,7 +12,8 @@ public class AlgebraCalculator extends JFrame{
     private JTextField output;
     // Button that computes the value of x(requires boolean)
     private JButton compute;
-    Boolean compute=false;
+    private String valueRight,valueLeft;
+    Boolean solve=false;
     // Creates the Pane/Tab
     public AlgebraCalculator(){
 	this.setTitle("Algebraic Calculator");
@@ -20,38 +21,49 @@ public class AlgebraCalculator extends JFrame{
 	this.setSize(500,800);
 	this.setLocation(100,100);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	Jpanel algPanel = new JPanel();
+	JPanel algPanel = new JPanel();
 	algPanel.setLayout(new FlowLayout());
 	algPanel.add(inputRight= new JTextField(20));
-  inputRight.setHorizontalAlignment(JTextField.RIGHT);
+        inputRight.setHorizontalAlignment(JTextField.RIGHT);
 	inputRight.setEditable(true);
 	algPanel.add(inputLeft=new JTextField(20));
 	inputLeft.setEditable(true);
 	algPanel.add(output= new JTextField(20));
 	output.setEditable(false);
+	compute= new JButton ("Compute");
+	
+	algPanel.add(inputLeft);
+	algPanel.add(inputRight);
+	algPanel.add(compute);
+	algPanel.add(output);
 
-	inputRight.addActionListener(new ListenInputRight);
-	inputLeft.addActionListener(new ListenInputLeft);
-	compute.addActionListener(new ListenCompute);
+	add(algPanel);
+
+	inputRight.addActionListener(new ListenInputRight());
+	inputLeft.addActionListener(new ListenInputLeft());
+	//	compute.addActionListener(new ListenCompute());
     }
-}
+
 class ListenInputRight implements ActionListener{
     public void actionPerformed(ActionEvent i){
-	
+	valueLeft=inputLeft.getText();
     }
 }
 class ListenInputLeft implements ActionListener{
-    public void actionPerformed(actionEvent i){
-
+    public void actionPerformed(ActionEvent i){
+	valueRight=inputRight.getText();
     }
 }
+    /*    
 class ListenCompute implements ActionListener{
-    public void ActionPerformed(actionEvent i){
-	
+    public void ActionPerformed(ActionEvent i){
+        
     }
 }
+    */
 public static void main(String[] args){
     AlgebraCalculator x = new AlgebraCalculator();
     x.setVisible(true);
     x.setResizable(false);
+}
 }
