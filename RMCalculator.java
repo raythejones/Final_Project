@@ -5,10 +5,7 @@ import java.util.*;
 
 public class RMCalculator extends JFrame {
 
-
- private Container pane;
- private Container pane2;
-
+ 
 
 // INITIALIZE FUNCTION BUTTONS
  private JButton plus;
@@ -54,6 +51,9 @@ Boolean multiplying = false ;
   //CONSTRUCTOR SETS EVERYTHING UP
   public RMCalculator() {
      this.setTitle("RM Calculator");
+         JTabbedPane mainTabbedPane = new JTabbedPane();
+        getContentPane().add(mainTabbedPane);
+
      this.setSize(500,800);
      this.setLocation(100,100);
      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -109,12 +109,14 @@ Boolean multiplying = false ;
     output.setHorizontalAlignment(JTextField.CENTER);
     output.setEditable(false);
 
-    JPanel p = new JPanel();
-    p.setLayout(new GridLayout(2, 1));
-    p.add(pan2);
-    p.add(pan1);
-    add(p);
+    JPanel basicCalculator = new JPanel();
+    basicCalculator.setLayout(new GridLayout(2, 1));
+    basicCalculator.add(pan2);
+    basicCalculator.add(pan1);
+    mainTabbedPane.addTab("Calculator", basicCalculator);
+    add(basicCalculator);
     
+
     one.addActionListener(new ListenOne());
     two.addActionListener(new ListenTwo());
     three.addActionListener(new ListenThree());
