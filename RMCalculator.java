@@ -5,7 +5,6 @@ import java.util.*;
 
 public class RMCalculator extends JFrame {
 
- 
 
 // INITIALIZE FUNCTION BUTTONS
  private JButton plus;
@@ -103,18 +102,18 @@ Boolean multiplying = false ;
 
 // RESULT
 
-    JPanel pan2 = new JPanel();
-    pan2.setLayout(new FlowLayout());
-    pan2.add(output = new JTextField(20));
+    JPanel answer = new JPanel();
+    answer.setLayout(new FlowLayout());
+    answer.add(output = new JTextField(20));
     output.setHorizontalAlignment(JTextField.CENTER);
     output.setEditable(false);
 
     JPanel basicCalculator = new JPanel();
     basicCalculator.setLayout(new GridLayout(2, 1));
-    basicCalculator.add(pan2);
+    basicCalculator.add(answer);
     basicCalculator.add(buttonPanel);
+    
     mainTabbedPane.addTab("Calculator", basicCalculator);
-    add(basicCalculator);
     
 
     one.addActionListener(new ListenOne());
@@ -313,7 +312,7 @@ class ListenSolve implements ActionListener {
   public static void main(String[] args) {
      RMCalculator g = new RMCalculator();
      g.setVisible(true);
-     g.setResizable(false);
+     //    g.setResizable(false);
 
   }
 }
