@@ -49,8 +49,8 @@ Boolean multiplying = false ;
     private double solutionTemp;
 
   //CONSTRUCTOR SETS EVERYTHING UP
-  public RMCalculator() {
-     this.setTitle("RM Calculator");
+    public RMCalculator(){
+      setTitle("RM Calculator");
          JTabbedPane mainTabbedPane = new JTabbedPane();
         getContentPane().add(mainTabbedPane);
 
@@ -58,8 +58,8 @@ Boolean multiplying = false ;
      this.setLocation(100,100);
      this.setDefaultCloseOperation(EXIT_ON_CLOSE);
      
-     JPanel pan1 = new JPanel();
-     pan1.setLayout(new GridLayout(5,4));
+     JPanel buttonPanel = new JPanel();
+     buttonPanel.setLayout(new GridLayout(5,4));
     
      clear = new JButton("C");
      posneg = new JButton("+/-");
@@ -81,25 +81,25 @@ Boolean multiplying = false ;
      decimal = new JButton(".");
      equal = new JButton("=");
      
-     pan1.add(clear);
-     pan1.add(posneg);
-     pan1.add(percent);
-     pan1.add(divide);
-     pan1.add(seven);
-     pan1.add(eight);
-     pan1.add(nine);
-     pan1.add(multiply);
-     pan1.add(four);
-     pan1.add(five);
-     pan1.add(six);
-     pan1.add(subtract);
-     pan1.add(one);
-     pan1.add(two);
-     pan1.add(three);
-     pan1.add(add);
-     pan1.add(zero);
-     pan1.add(decimal);
-     pan1.add(equal);
+     buttonPanel.add(clear);
+     buttonPanel.add(posneg);
+     buttonPanel.add(percent);
+     buttonPanel.add(divide);
+     buttonPanel.add(seven);
+     buttonPanel.add(eight);
+     buttonPanel.add(nine);
+     buttonPanel.add(multiply);
+     buttonPanel.add(four);
+     buttonPanel.add(five);
+     buttonPanel.add(six);
+     buttonPanel.add(subtract);
+     buttonPanel.add(one);
+     buttonPanel.add(two);
+     buttonPanel.add(three);
+     buttonPanel.add(add);
+     buttonPanel.add(zero);
+     buttonPanel.add(decimal);
+     buttonPanel.add(equal);
 
 // RESULT
 
@@ -112,7 +112,7 @@ Boolean multiplying = false ;
     JPanel basicCalculator = new JPanel();
     basicCalculator.setLayout(new GridLayout(2, 1));
     basicCalculator.add(pan2);
-    basicCalculator.add(pan1);
+    basicCalculator.add(buttonPanel);
     mainTabbedPane.addTab("Calculator", basicCalculator);
     add(basicCalculator);
     
