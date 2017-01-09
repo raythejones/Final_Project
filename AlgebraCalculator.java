@@ -9,10 +9,11 @@ public class AlgebraCalculator extends JFrame{
     //Initialize the TextFields in order to put expressions 
     private JTextField inputRight;
     private JTextField inputLeft;
+    private JLabel equals;
     private JTextField output;
     // Button that computes the value of x(requires boolean)
     private JButton compute;
-    private String valueRight,valueLeft;
+    private String valueRight,valueLeft, solution;
     Boolean solve=false;
     // Creates the Pane/Tab
     public AlgebraCalculator(){
@@ -23,44 +24,69 @@ public class AlgebraCalculator extends JFrame{
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	JPanel algPanel = new JPanel();
 	algPanel.setLayout(new FlowLayout());
-	algPanel.add(inputRight= new JTextField(20));
-        inputRight.setHorizontalAlignment(JTextField.RIGHT);
-	inputRight.setEditable(true);
 	algPanel.add(inputLeft=new JTextField(20));
 	inputLeft.setEditable(true);
+	JLabel equals = new JLabel("=");
+	algPanel.add(inputRight= new JTextField(20));
+	inputRight.setHorizontalAlignment(JTextField.RIGHT);
+	inputRight.setEditable(true);
 	algPanel.add(output= new JTextField(20));
+	equals.setHorizontalAlignment(JLabel.CENTER);
 	output.setEditable(false);
 	compute= new JButton ("Compute");
-	
+	// Sets the GUI
 	algPanel.add(inputLeft);
+	algPanel.add(equals);
 	algPanel.add(inputRight);
 	algPanel.add(compute);
 	algPanel.add(output);
-
+	//Creates the GUI
 	add(algPanel);
-
-	inputRight.addActionListener(new ListenInputRight());
-	inputLeft.addActionListener(new ListenInputLeft());
-	//	compute.addActionListener(new ListenCompute());
+	//Allows us to gather the information from the GUI
+	compute.addActionListener(new ListenCompute());
     }
 
-class ListenInputRight implements ActionListener{
+
+class ListenCompute implements ActionListener{
     public void actionPerformed(ActionEvent i){
 	valueLeft=inputLeft.getText();
-    }
-}
-class ListenInputLeft implements ActionListener{
-    public void actionPerformed(ActionEvent i){
 	valueRight=inputRight.getText();
+	if (isExpression(valueLeft) && isExpression(valueRight)){
+	    valueLeft=simplify(valueLeft);
+	    valueRight=simplify(valueRight);
+	    /* //for polynomials
+	       if (isExpo(valueLeft) || isExpo(valueRight)){
+	           solvepoly(valueLeft
+	       }
+	       else{
+	    */
+	    solution=(solve(valueLeft, valueRight));
+	    output.setText(solution);
+	    inputLeft.setText("");
+	    inputRight.setText("");
+	}
+    }
+    // Checks to see if the query string is an expression (not working as of yet)
+    public boolean isExpression(String value){
+	return true;
+    }
+    // To simplify long algebraic equations (not working as of yet)
+    public String simplify(String value){
+	return value;
+    }
+    //Should try to move the constants to one side keeping the variable on the other for monomials expressions, then should either divide or multiply depending on the coefficent. (Working on)
+    public String solve(String exp1, String exp2){
+	//Dummy Text
+	return exp1;
     }
 }
-    /*    
-class ListenCompute implements ActionListener{
-    public void ActionPerformed(ActionEvent i){
-        
+    /*
+    public String solvePoly(String exp1, String exp2){
+	
     }
-}
+
     */
+
 public static void main(String[] args){
     AlgebraCalculator x = new AlgebraCalculator();
     x.setVisible(true);
