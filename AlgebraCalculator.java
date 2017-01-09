@@ -54,7 +54,8 @@ class ListenCompute implements ActionListener{
 	if (isExpression(valueLeft) && isExpression(valueRight)){
 	    valueLeft=simplify(valueLeft);
 	    valueRight=simplify(valueRight);
-	    /* //for polynomials
+	    /* //for polyno
+ymials
 	       if (isExpo(valueLeft) || isExpo(valueRight)){
 	           solvepoly(valueLeft
 	       }
@@ -68,7 +69,18 @@ class ListenCompute implements ActionListener{
     }
     // Checks to see if the query string is an expression (not working as of yet)
     public boolean isExpression(String value){
-	return true;
+	char var='';
+	for (int x=0; x<value.length();x++){
+	    if (Character.isLetter(value.charAt(x))){
+		if(var==''){
+		    var=charAt(x);
+		}
+		if else (var!=value.charAt(x)){
+			return false;
+		    }
+	    }
+	}
+	
     }
     // To simplify long algebraic equations (not working as of yet)
     public String simplify(String value){
