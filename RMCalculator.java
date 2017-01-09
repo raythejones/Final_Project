@@ -312,7 +312,7 @@ class ListenSolve implements ActionListener {
   public static void main(String[] args) {
      RMCalculator g = new RMCalculator();
      g.setVisible(true);
-     //    g.setResizable(false);
+         g.setResizable(false);
 
   }
 }
