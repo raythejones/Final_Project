@@ -13,8 +13,8 @@ public class Graphing extends JFrame {
     private JLabel Equals;
     private JTextField slope;
     private JLabel variable;
-    private	    double[] xvalues;
-    private	    double[] yvalues;
+    private double[] xvalues;
+    private double[] yvalues;
     private int slopeInt;
     private int yIntInt;
     private JTextField yInt;
@@ -32,9 +32,12 @@ public class Graphing extends JFrame {
 	pane = this.getContentPane();
 	pane.setLayout(new GridLayout(2,1));
 	JPanel e = new JPanel();
+	JPanel f = new JPanel();
 
 	e.setLayout(new FlowLayout());
-
+	f.setLayout(new FlowLayout());
+	f.setBackground(Color.white);
+	    
 	Equals = new JLabel("y= (");
 
 	slope = new JTextField(5);
@@ -60,6 +63,7 @@ public class Graphing extends JFrame {
      
      
 	pane.setLayout(new GridLayout(2, 1));
+	pane.add(f);
 	pane.add(e);
      
     }
@@ -85,15 +89,16 @@ public class Graphing extends JFrame {
 
 		    p++;
 		    q++;}
-	    
-	    
-	    
-		
+	 
 	}}	    	    
 
    
-	
-	
+    /*
+    public void paint(Graphics graphic) {
+	graphic.setColor(Color.black);
+	graphic.drawLine(0,0,200,200);
+    }	
+    */	
 
 
 
