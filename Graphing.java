@@ -4,14 +4,19 @@ import javax.swing.*;
 import java.util.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
+import java.lang.*;
+
 
 public class Graphing extends JFrame {
     private Container pane;
-    
+    private Graphics2D g2;
     private JLabel Equals;
     private JTextField slope;
-        private JLabel variable;
-
+    private JLabel variable;
+    private	    double[] xvalues;
+    private	    double[] yvalues;
+    private int slopeInt;
+    private int yIntInt;
     private JTextField yInt;
     private JButton graph;
     String yEquals = "";
@@ -25,67 +30,76 @@ public class Graphing extends JFrame {
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
 	pane = this.getContentPane();
-	
-     pane.setLayout(new FlowLayout());
+	pane.setLayout(new GridLayout(2,1));
+	JPanel e = new JPanel();
 
-     Equals = new JLabel("y= (");
+	e.setLayout(new FlowLayout());
 
-     slope = new JTextField(5);
-     variable = new JLabel("* x) + ");
-     yInt = new JTextField(5);
+	Equals = new JLabel("y= (");
+
+	slope = new JTextField(5);
+	variable = new JLabel("* x) + ");
+	yInt = new JTextField(5);
+	output = new JTextField(20);
+	graph = new JButton("Graph!");
      
-     output = new JTextField(20);
+	e.add(Equals);     
+	e.add(slope);
+	e.add(variable);
+	e.add(yInt);
+	e.add(graph);
      
-     graph = new JButton("Graph!");
+	e.add(output);
+	pane.add(e);
 
-     pane.add(Equals);     
-     pane.add(slope);
-     pane.add(variable);
-     pane.add(yInt);
-          pane.add(graph);
-
-     pane.add(output);
-     
-
-     //   graph.addActionListener(new ListenGraph());
 
      
-     /*
+	graph.addActionListener(new ListenGraph());
      
-     JPanel p = new JPanel();
-     p.setLayout(new GridLayout(2, 1));
-     p.add(inputEquation);
-     add(p);
-     */    
+     
+     
+     
+	pane.setLayout(new GridLayout(2, 1));
+	pane.add(e);
+     
     }
-    /*  
-    public boolean isSlopeInterceptForm(String text){
-	if(){
-	    
-	}
-}    
-*/	
 
     
-/*
+
+    
     
     class ListenGraph implements ActionListener {
 	public void actionPerformed(ActionEvent x) {
-	    yEquals = input.getText();
-
-	    
-	    if (isSlopeInterceptForm(yEquals)){
-		output.setText(yEquals);
-	    }
-	    
-	}
+	    xvalues = new double[21];
+	    yvalues = new double[21];
 	
-    }
-*/
+	    slopeInt = Integer.parseInt(slope.getText());
+	    yIntInt = Integer.parseInt(yInt.getText());
 
-    public static void main(String [] args) {	
-	Graphing g = new Graphing();
-	g.setVisible(true);
-    }
+
+	    int p = -10;
+	    int q = 0;
+		while(p<11){
+		    xvalues[q] = p;
+		    yvalues[q] = (slopeInt * p) + yIntInt;
+
+		    p++;
+		    q++;}
+	    
+	    
+	    
+		
+	}}	    	    
+
+   
+	
+	
+
+
+
+public static void main(String [] args) {	
+    Graphing g = new Graphing();
+    g.setVisible(true);
+}
     
 }
