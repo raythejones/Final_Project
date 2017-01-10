@@ -89,7 +89,7 @@ class ListenCompute implements ActionListener{
 	if (value.equals("")){
 	    return false;
 	}
-	char var=';';
+	char var=';'; // No such thing as empty char, so an obscure char should work
 	for (int x=0; x<value.length();x++){
 	    if (Character.isLetter(value.charAt(x))){
 		if(var==';'){
@@ -98,7 +98,8 @@ class ListenCompute implements ActionListener{
 		else if (var!=value.charAt(x)){
 			return false;
 		    }
-		
+		// Need to implement a method to only have one variable only, possibly in isExpression
+
 	    }
 	}
 	if (var==';'){
@@ -112,8 +113,8 @@ class ListenCompute implements ActionListener{
     //Checks to see if the same variable is used
 
     public boolean isSameVar(String exp1, String exp2){
-	char var1='*';
-	char var2='*';
+	char var1='/'; //needs to be instantiated 
+	char var2='[';
 	for (int x=0; x<exp1.length(); x++){
 	    if(Character.isLetter(exp1.charAt(x))){
 		var1=exp1.charAt(x);
@@ -125,8 +126,8 @@ class ListenCompute implements ActionListener{
 	    }
 	}
 	if  (var1 == var2 ||
-	     (hasLetter(exp1) || !hasLetter(exp2)) ||
-	     (hasLetter(exp2) || !hasLetter(exp1))){
+	     (hasLetter(exp1) && !hasLetter(exp2)) ||
+	     (hasLetter(exp2) && !hasLetter(exp1))){
 	    return true;
 	}
 	else{
@@ -186,3 +187,4 @@ public static void main(String[] args){
     x.setResizable(false);
 }
 }
+
