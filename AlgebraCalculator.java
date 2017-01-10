@@ -72,8 +72,10 @@ class ListenCompute implements ActionListener{
 
 	    solution=(solve(valueLeft, valueRight));
 	    output.setText(solution);
-	    inputLeft.setText("");
+
+	    /*inputLeft.setText("");
 	    inputRight.setText("");
+	    */
 	}
 	else{
 	    JOptionPane error = new JOptionPane("A valid expression must be inputed in both sides of the equation, as well as the same variable.", JOptionPane.ERROR_MESSAGE);
@@ -113,7 +115,7 @@ class ListenCompute implements ActionListener{
     //Checks to see if the same variable is used
 
     public boolean isSameVar(String exp1, String exp2){
-	char var1='/'; //needs to be instantiated 
+	char var1='/';
 	char var2='[';
 	for (int x=0; x<exp1.length(); x++){
 	    if(Character.isLetter(exp1.charAt(x))){
@@ -148,32 +150,158 @@ class ListenCompute implements ActionListener{
 
     public String simplify(String value){
 	//Parenthesis
-	if (value.indexOf('(')>-1 || value.indexOf(')')>-1){
+	boolean isError=false;
+	if (value.indexOf('(')>-1 || value.indexOf(')')>-1 ){
 	    if (value.indexOf(')')==-1 || value.indexOf('(')==-1){
-		JOptionPane error = new JOptionPane("Expected close parenthesis", JOptionPane.ERROR_MESSAGE);
+		JOptionPane error = new JOptionPane("Expected open/close parenthesis", JOptionPane.ERROR_MESSAGE);
 		JDialog message = error.createDialog("ParenthesisException");
 		message.setAlwaysOnTop(true);
 		message.setVisible(true);
+		isError=true;
 	    }
 	    else{
 		
 	    }
 	}
 	/* Exponents (Not in use until on to polynomials)
-	else if(value.indexOf("^")>-1){
+	else if(value.indexOf("^")>-1 && !isError){
 
 	}
 	*/
+	
+	else if (value.indexOf('*')>-1 && !isError){
+	   
+	}
 	return value;
     }
 	
     //Should try to move the constants to one side keeping the variable on the other for monomials expressions, then should either divide or multiply depending on the coefficent. (Working on)
-
-	public String solve(String exp1, String exp2){
-	//Dummy Text
-	return exp1;
+    
+    public String solve(String exp1, String exp2){
+	if ((hasLetter(exp1) && !hasLetter(exp2))){
+	    while(exp1.indexOf('+')>-1){
+		solver(exp2);
+		String num="";
+		for (int x=exp1.indexOf('+') + 1; x<exp1.length(); x++){
+		    num=num+x;
+		}
+	    }
+	}
+	return solver(exp2);
     }
+    public boolean isNums(char x){
+	if (x=='0' || x=='1'|| x=='2' || x=='3' || x=='4' || x=='5' || x=='6' ||x=='7' ||x=='8' ||x=='9'){
+	    return true;
+	}
+	else{
+	    return false;
+	}
+    }
+    public String solver(String str){
+	String temp1="";
+	String temp2="";
+	String solution="";
+	boolean parse=true;
+	if (str.indexOf('*')!=-1){
+	    for (int x=str.indexOf("*")+1; parse && x<str.length(); x++){
+		if (isNums(str.charAt(x))){
+		    temp1=temp1+str.charAt(x);
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    parse=true;
+	    for (int x=str.indexOf("*")-1; parse && x>-1; x--){
+		if (isNums(str.charAt(x))){
+		    temp2=str.charAt(x)+temp2;
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    solution=multiply(temp1,temp2);
+	}
+	parse=true;
+	if (str.indexOf('/')!=-1){
+	    for (int x=str.indexOf("/")+1; parse && x<str.length(); x++){
+		if (isNums(str.charAt(x))){
+		    temp1=temp1+str.charAt(x);
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    parse=true;
+	    for (int x=str.indexOf("/")-1; parse && x>-1; x--){
+		if (isNums(str.charAt(x))){
+		    temp2=str.charAt(x)+temp2;
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    solution=divide(temp1,temp2);
+	}
+	parse=true;
+	if (str.indexOf('+')!=-1){
+	    for (int x=str.indexOf("+")+1; parse && x<str.length(); x++){
+		if (isNums(str.charAt(x))){
+		    temp1=temp1+str.charAt(x);
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    parse=true;
+	    for (int x=str.indexOf("+")-1; parse && x>-1; x--){
+		if (isNums(str.charAt(x))){
+		    temp2=str.charAt(x)+temp2;
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    solution=add(temp1,temp2);
+	}
+	parse=true;
+	if (str.indexOf('-')!=-1){
+	    for (int x=str.indexOf("-")+1; parse && x<str.length(); x++){
+		if (isNums(str.charAt(x))){
+		    temp1=temp1+str.charAt(x);
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    parse=true;
+	    for (int x=str.indexOf("-")-1; parse && x>-1; x--){
+		if (isNums(str.charAt(x))){
+		    temp2=str.charAt(x)+temp2;
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    solution=subtract(temp1,temp2);
+	}
+	return solution;
+    }
+    
+    public String multiply(String x, String y){
+	    return ""+ (Integer.parseInt(x)*Integer.parseInt(y));
+	}
+	public String divide(String x, String y){
+	    return ""+ (Integer.parseInt(y)/Integer.parseInt(x));
+	}
+	public String subtract(String x,String y){
+	    return ""+ (Integer.parseInt(y)-Integer.parseInt(x));
+	}
+	public String add(String x,String y){
+	    return ""+ (Integer.parseInt(x)+Integer.parseInt(y));
+	}
 }
+    
     
     /*
     public String solvePoly(String exp1, String exp2){
@@ -181,10 +309,10 @@ class ListenCompute implements ActionListener{
     }
     */
 
-public static void main(String[] args){
-    AlgebraCalculator x = new AlgebraCalculator();
-    x.setVisible(true);
-    x.setResizable(false);
-}
+    public static void main(String[] args){
+	AlgebraCalculator x = new AlgebraCalculator();
+	x.setVisible(true);
+	x.setResizable(false);
+    }
 }
 
