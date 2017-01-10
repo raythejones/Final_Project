@@ -45,6 +45,43 @@ public class Graphing extends JFrame {
 
         private void initPaint(Graphics g){
 	    g.setColor(Color.black);
+	    g.drawLine(40,0,40,400);
+	    g.drawLine(0,40,400,40);
+	    g.drawLine(80,0,80,400);
+	    g.drawLine(0,80,400,80);
+	    g.drawLine(120,0,120,400);
+	    g.drawLine(0,120,400,120);
+	    g.drawLine(160,0,160,400);
+	    g.drawLine(0,160,400,160);
+	    g.drawLine(240,0,240,400);
+	    g.drawLine(0,240,400,240);
+	    g.drawLine(280,0,280,400);
+	    g.drawLine(0,280,400,280);
+	    g.drawLine(320,0,320,400);
+	    g.drawLine(0,320,400,320);
+	    g.drawLine(360,0,360,400);
+	    g.drawLine(0,360,400,360);
+	    g.drawLine(20,0,20,400);
+	    g.drawLine(0,20,400,20);
+	    g.drawLine(60,0,60,400);
+	    g.drawLine(0,60,400,60);
+	    g.drawLine(100,0,100,400);
+	    g.drawLine(0,100,400,100);
+	    g.drawLine(140,0,140,400);
+	    g.drawLine(0,140,400,140);
+	    g.drawLine(220,0,220,400);
+	    g.drawLine(0,220,400,220);
+	    g.drawLine(260,0,260,400);
+	    g.drawLine(0,260,400,260);
+	    g.drawLine(300,0,300,400);
+	    g.drawLine(0,300,400,300);
+	    g.drawLine(340,0,340,400);
+	    g.drawLine(0,340,400,340);
+	    g.drawLine(0,380,400,380);
+	    g.drawLine(0,180,400,180);
+	    g.drawLine(380,0,380,400);
+	    g.drawLine(180,0,180,400);
+   
     Graphics2D g2 = (Graphics2D) g;
 
 	    g2.setStroke(new BasicStroke(3));
@@ -115,14 +152,11 @@ public class Graphing extends JFrame {
 	
 	    slopeInt = Integer.parseInt(slope.getText());
 	    yIntInt = Integer.parseInt(yInt.getText());
-
-
 	    int p = -10;
 	    int q = 0;
 	    while(p<11){
 		xvalues[q] = p;
 		yvalues[q] = (slopeInt * p) + yIntInt;
-
 		p++;
 		q++;}
 	    isGraphing = true;
@@ -130,7 +164,6 @@ public class Graphing extends JFrame {
     
 	}
     }	    	    
-
     */
 
 
