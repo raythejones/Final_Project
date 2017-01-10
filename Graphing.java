@@ -15,12 +15,12 @@ public class Graphing extends JFrame {
     private JLabel variable;
     private JLabel makeSpace;
     private JLabel makeSpace2;
-    private double[] xvalues;
-    private double[] yvalues;
     private int slopeInt;
     private int yIntInt;
     private JTextField yInt;
     private JButton graph;
+    private Point p1;
+    private Point p2;
     String yEquals = "";
     private boolean isGraphing = false;
 
@@ -31,23 +31,34 @@ public class Graphing extends JFrame {
 		protected void paintComponent(Graphics g) {
 		    super.paintComponent(g);
 		    myPaint(g);
+		    initPaint(g);
 		}	
 
 	    };
     private void myPaint(Graphics g){
 	if (isGraphing) {
 	    g.setColor(Color.black);
-	    g.drawLine(0,100,100,100);
+	    g.drawLine(p1.x,p1.y,p2.x,p2.y);
 
 	}
     }
-    
+
+        private void initPaint(Graphics g){
+	    g.setColor(Color.black);
+    Graphics2D g2 = (Graphics2D) g;
+
+	    g2.setStroke(new BasicStroke(3));
+
+	    g.drawLine(0,200,400,200);
+	    g.drawLine(200,0,200,400);
+
+	
+    }
     public Graphing() {
 	JFrame frame = new JFrame("Dispose shapes");
 
 	this.setTitle("Graphing");
-	this.setSize(500,800);
-	this.setLocation(100,100);
+	this.setSize(400,800);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	
 	pane = this.getContentPane();
@@ -56,8 +67,9 @@ public class Graphing extends JFrame {
 	e.setLayout(new FlowLayout());
 
 	graphArea.setLayout(new FlowLayout());
-	graphArea.setBackground(Color.white);
 
+	graphArea.setBackground(Color.white);
+	    
 	makeSpace = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
 
 
@@ -94,7 +106,7 @@ public class Graphing extends JFrame {
 
     
 
-    
+    /*
     
     class ListenGraph implements ActionListener {
 	public void actionPerformed(ActionEvent x) {
@@ -119,8 +131,27 @@ public class Graphing extends JFrame {
 	}
     }	    	    
 
+    */
 
 
+    class ListenGraph implements ActionListener {
+	public void actionPerformed(ActionEvent x) {
+	
+	    slopeInt = Integer.parseInt(slope.getText());
+	    yIntInt = Integer.parseInt(yInt.getText());
+
+	    p1 = new Point(0, (slopeInt * -10) + yIntInt);
+	    p2 = new Point(400, (slopeInt * 10) + yIntInt);
+
+	    p1.y = -20*p1.y + 200;
+	    p2.y = -20*p2.y + 200;
+		
+	    isGraphing = true;
+	    repaint();
+    
+	}
+    }
+    
     public static void main(String [] args) {	
 	Graphing h = new Graphing();
 	h.setVisible(true);
