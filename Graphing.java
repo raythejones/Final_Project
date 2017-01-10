@@ -9,7 +9,10 @@ public class Graphing extends JFrame {
     private Container pane;
     
     private JLabel Equals;
-    private JTextField input;
+    private JTextField slope;
+        private JLabel variable;
+
+    private JTextField yInt;
     private JButton graph;
     String yEquals = "";
     private JTextField output;
@@ -25,15 +28,20 @@ public class Graphing extends JFrame {
 	
      pane.setLayout(new FlowLayout());
 
-     Equals = new JLabel("y=");
+     Equals = new JLabel("y= (");
 
-     input = new JTextField();
-     output = new JTextField();
+     slope = new JTextField(5);
+     variable = new JLabel("* x) + ");
+     yInt = new JTextField(5);
+     
+     output = new JTextField(20);
      
      graph = new JButton("Graph!");
 
      pane.add(Equals);     
-     pane.add(input);
+     pane.add(slope);
+     pane.add(variable);
+     pane.add(yInt);
           pane.add(graph);
 
      pane.add(output);
