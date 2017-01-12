@@ -8,7 +8,6 @@ import java.lang.*;
 
 
 public class Graphing extends JFrame {
-    private Container pane;
     private Graphics2D g2;
     private JLabel Equals;
     private JTextField slope;
@@ -18,11 +17,19 @@ public class Graphing extends JFrame {
     private int slopeInt;
     private int yIntInt;
     private JTextField yInt;
-    private JButton graph;
+    private JButton graphLine;
+    private int aInt;
+    private int bInt;
+    private int cInt;
+    private JTextField A;
+    private JTextField B;
+    private JTextField C;
+    private JButton graphParabola;
     private Point p1;
     private Point p2;
     String yEquals = "";
-    private boolean isGraphing = false;
+    private boolean isGraphingLine = false;
+    private boolean isGraphingParabola = false;
 
 	JPanel e = new JPanel();
 	JPanel graphArea = new JPanel() {
@@ -36,12 +43,22 @@ public class Graphing extends JFrame {
 
 	    };
     private void myPaint(Graphics g){
-	if (isGraphing) {
+	if (isGraphingLine) {
 	    g.setColor(Color.black);
 	    g.drawLine(p1.x,p1.y,p2.x,p2.y);
-
 	}
-    }
+	
+	if (isGraphingParabola) {
+	        g.setColor(Color.black);
+	    g.drawLine(p1.x,p1.y,p2.x,p2.y);
+
+        }
+	
+	}
+
+    
+    
+
 
         private void initPaint(Graphics g){
 	    g.setColor(Color.black);
@@ -91,13 +108,14 @@ public class Graphing extends JFrame {
 
 	
     }
+    
     public Graphing() {
-	JFrame frame = new JFrame("Dispose shapes");
 
 	this.setTitle("Graphing");
 	this.setSize(400,800);
 	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	
+	     Container pane;
+
 	pane = this.getContentPane();
 	pane.setLayout(new GridLayout(2,1));
 
@@ -111,8 +129,14 @@ public class Graphing extends JFrame {
 
 
 	Equals = new JLabel("y= (");
-
 	slope = new JTextField(5);
+	variable = new JLabel("* x) + ");
+	yInt = new JTextField(5);
+	makeSpace2 = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
+
+	graph = new JButton("Graph!");
+
+	A = new JTextField(5);
 	variable = new JLabel("* x) + ");
 	yInt = new JTextField(5);
 	makeSpace2 = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
@@ -126,12 +150,25 @@ public class Graphing extends JFrame {
 	e.add(yInt);
 		e.add(makeSpace2);
 
-	e.add(graph);
+	e.add(graphLine);
 
 
+	e.add(makeSpace);
+	e.add(Equals);     
+	e.add(A);
+	e.add(variable);
+	
+	e.add(B);
+	e.add(C);
+
+		e.add(makeSpace2);
+
+	e.add(graphParabola);
+
      
-	graph.addActionListener(new ListenGraph());
-     
+	graphLine.addActionListener(new ListenGraphLine());
+     	graphParabola.addActionListener(new ListenGraphParabola());
+
      
      
      
@@ -143,31 +180,8 @@ public class Graphing extends JFrame {
 
     
 
-    /*
-    
-    class ListenGraph implements ActionListener {
-	public void actionPerformed(ActionEvent x) {
-	    xvalues = new double[21];
-	    yvalues = new double[21];
-	
-	    slopeInt = Integer.parseInt(slope.getText());
-	    yIntInt = Integer.parseInt(yInt.getText());
-	    int p = -10;
-	    int q = 0;
-	    while(p<11){
-		xvalues[q] = p;
-		yvalues[q] = (slopeInt * p) + yIntInt;
-		p++;
-		q++;}
-	    isGraphing = true;
-	    repaint();
-    
-	}
-    }	    	    
-    */
-
-
-    class ListenGraph implements ActionListener {
+  
+    class ListenGraphLine implements ActionListener {
 	public void actionPerformed(ActionEvent x) {
 	
 	    slopeInt = Integer.parseInt(slope.getText());
@@ -179,12 +193,30 @@ public class Graphing extends JFrame {
 	    p1.y = -20*p1.y + 200;
 	    p2.y = -20*p2.y + 200;
 		
-	    isGraphing = true;
+	    isGraphingLine = true;
 	    repaint();
     
 	}
     }
     
+       class ListenGraphParabola implements ActionListener {
+	public void actionPerformed(ActionEvent x) {
+	isGraphingParabola = true;
+	    aInt = Integer.parseInt(A.getText());
+	    bInt = Integer.parseInt(B.getText());
+	    cInt = Integer.parseInt(C.getText());
+
+	for(int w = 1; w<401; w++){
+		p1 = new Point(w-1, (aInt * (w-1)*(w-1)) + (bInt * (w-1)) + cInt);
+		p2 = new Point(w, (aInt * w*w) + (bInt * w) + cInt);
+		repaint();
+	}
+
+
+    
+	}
+    }
+     
     public static void main(String [] args) {	
 	Graphing h = new Graphing();
 	h.setVisible(true);
