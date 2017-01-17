@@ -62,18 +62,15 @@ class ListenCompute implements ActionListener{
 	if ((isExpression(valueLeft) || isExpression(valueRight)) && isSameVar(valueRight,valueLeft) && isSomething(valueLeft) && isSomething(valueRight)){
 	    valueLeft=simplify(valueLeft);
 	    valueRight=simplify(valueRight);
-
-	    /*
-	      if (isExpo(valueLeft) || isExpo(valueRight)){
-	           solvepoly(valueLeft
-	       }
-	       else{
-	    */
-
-	    solution=(solve(removeSpaces(valueLeft), removeSpaces(valueRight)));
-	    output.setText(solution);
-
-	    inputLeft.setText(removeSpaces(valueLeft));
+	    if (isExpo(valueLeft) || isExpo(valueRight)){
+		solution=(solvepoly(removeSpaces(valueLeft), removeSpaces(valueRight)));
+		output.setText(solution);
+	    }
+	    else{
+		solution=(solve(removeSpaces(valueLeft), removeSpaces(valueRight)));
+		output.setText(solution);
+	    }
+	    inputLeft.setText("");
 	    inputRight.setText("");
 	    
 	}
@@ -84,11 +81,23 @@ class ListenCompute implements ActionListener{
 	    message.setVisible(true);
 	}
     }
+    //Checks if it is a polynomial equations
+    public boolean isExpo(String value){
+	boolean expo=false;
+	for (int x=0; x+1<value.length(); x++){
+	    if ((value.substring(x,x+1)).equals("^")){
+		expo=true;
+	    }
+	}
+	return expo;
+    }
+    // Removes spaces to stop bugs
     public String removeSpaces(String value){
         String holder ="";
 	holder=value.replace(" ", "");
 	return holder;
     }
+    //Makes sure something has been inputed
     public boolean isSomething(String value){
 	if (value.equals("")){
 	    return false;
@@ -170,10 +179,6 @@ class ListenCompute implements ActionListener{
 		
 	    }
 	}
-	// Exponents (Not in use until on to polynomials)
-	//	if(value.indexOf("^")>-1 && !isError){
-
-	//}
 	if (value.indexOf('*')>-1 && !isError){
 	   
 	}
@@ -420,6 +425,7 @@ class ListenCompute implements ActionListener{
 	}
 	return container;
     }
+    // 
     public boolean isNums(char x){
 	if (x=='0' || x=='1'|| x=='2' || x=='3' || x=='4' || x=='5' || x=='6' ||x=='7' ||x=='8' ||x=='9'){
 	    return true;
@@ -435,7 +441,7 @@ class ListenCompute implements ActionListener{
 	boolean parse=true;
 	if (str.indexOf('*')!=-1){
 	    for (int x=str.indexOf("*")+1; parse && x<str.length(); x++){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp1=temp1+str.charAt(x);
 		}
 		else{
@@ -444,7 +450,7 @@ class ListenCompute implements ActionListener{
 	    }
 	    parse=true;
 	    for (int x=str.indexOf("*")-1; parse && x>-1; x--){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp2=str.charAt(x)+temp2;
 		}
 		else{
@@ -458,7 +464,7 @@ class ListenCompute implements ActionListener{
 	parse=true;
 	if (str.indexOf('/')!=-1){
 	    for (int x=str.indexOf("/")+1; parse && x<str.length(); x++){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp1=temp1+str.charAt(x);
 		}
 		else{
@@ -467,7 +473,7 @@ class ListenCompute implements ActionListener{
 	    }
 	    parse=true;
 	    for (int x=str.indexOf("/")-1; parse && x>-1; x--){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp2=str.charAt(x)+temp2;
 		}
 		else{
@@ -481,7 +487,7 @@ class ListenCompute implements ActionListener{
 	parse=true;
 	if (str.indexOf('+')!=-1){
 	    for (int x=str.indexOf("+")+1; parse && x<str.length(); x++){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp1=temp1+str.charAt(x);
 		}
 		else{
@@ -490,7 +496,7 @@ class ListenCompute implements ActionListener{
 	    }
 	    parse=true;
 	    for (int x=str.indexOf("+")-1; parse && x>-1; x--){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp2=str.charAt(x)+temp2;
 		}
 		else{
@@ -504,7 +510,7 @@ class ListenCompute implements ActionListener{
 	parse=true;
 	if (str.indexOf('-')!=-1){
 	    for (int x=str.indexOf("-")+1; parse && x<str.length(); x++){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp1=temp1+str.charAt(x);
 		}
 		else{
@@ -513,7 +519,7 @@ class ListenCompute implements ActionListener{
 	    }
 	    parse=true;
 	    for (int x=str.indexOf("-")-1; parse && x>-1; x--){
-		if (isNums(str.charAt(x))){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
 		    temp2=str.charAt(x)+temp2;
 		}
 		else{
@@ -524,28 +530,32 @@ class ListenCompute implements ActionListener{
 	}
 	return solution;
     }
-
-    
+    // Basiv math fxns
     public String multiply(String x, String y){
-	return ""+ (Integer.parseInt(x)*Integer.parseInt(y));
+	return ""+ (Double.parseDouble(x)*Double.parseDouble(y));
     }
     public String divide(String x, String y){
-	return ""+ (Integer.parseInt(y)/Integer.parseInt(x));
+	return ""+ (Double.parseDouble(y)/Double.parseDouble(x));
     }
     public String subtract(String x,String y){
-	return ""+ (Integer.parseInt(y)-Integer.parseInt(x));
+	return ""+ (Double.parseDouble(y)-Double.parseDouble(x));
     }
     public String add(String x,String y){
-	return ""+ (Integer.parseInt(x)+Integer.parseInt(y));
+	return ""+ (Double.parseDouble(x)+Double.parseDouble(y));
     }
+    public String expo(String x, String y){
+	return ""+ (Math.pow(Double.parseDouble(x), Double.parseDouble(y)));
+    }
+    //Solve polynomials 
+
+    public String solvepoly(String exp1, String exp2){
+        return exp1;
+    }
+
 }
     
     
-    /*
-    public String solvePoly(String exp1, String exp2){
-	
-    }
-    */
+    
 
     public static void main(String[] args){
 	AlgebraCalculator x = new AlgebraCalculator();
@@ -553,3 +563,4 @@ class ListenCompute implements ActionListener{
 	x.setResizable(false);
     }
 }
+
