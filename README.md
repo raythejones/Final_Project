@@ -11,7 +11,7 @@ Graphing:
 Various functions for x to both the first and second degree. Make sure to input integers only!
 
 Algebra:
-
+Functions for x to the first degree solve algebraic expression. Make sure to leave in the most simplified form. 
 
 -List of unresolved bugs
 Simple Calculator:
@@ -22,7 +22,7 @@ The input fields must be filled out with integers only. Additionally, all of the
 
 
 Algebra:
-
+When the algebraic calculator is given variables on both sides of the equation, it will return nothing. Additionally, if given numerical expression to solve, it can not take more than one operation. 
 
 
 -Directions on how to compile and run your code 
@@ -36,4 +36,4 @@ For the Simple Calculator, just use it as you would a regular calculator.
 
 For the Graphing Calculator, either input a slope and a y intercept for the Line Graphing portion, or input A, B, and C values for the Quadratic portion. The graph will clear each time before you attempt to graph a new function. 
 
-For the Algebra Calculator
+For the Algebra Calcululator, input an expression to one of the text boxes and a constant in the other. Each time you compute, the calculator resets and allows for new inputs to be placed. The expression and constant is recommended to be in its simplest form.
