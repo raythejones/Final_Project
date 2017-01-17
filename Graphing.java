@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.script.*;
 import java.util.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
@@ -9,11 +10,15 @@ import java.lang.*;
 
 public class Graphing extends JFrame {
     private Graphics2D g2;
+    private double[] xValues;
+    private double[] yValues;
     private JLabel Equals;
+    private JLabel Equals2;
     private JTextField slope;
     private JLabel variable;
-    private JLabel makeSpace;
-    private JLabel makeSpace2;
+    private JLabel variable2;
+    private JLabel variable3;
+    private JLabel linebreak;
     private int slopeInt;
     private int yIntInt;
     private JTextField yInt;
@@ -27,6 +32,44 @@ public class Graphing extends JFrame {
     private JButton graphParabola;
     private Point p1;
     private Point p2;
+    private Point p3;
+    private Point p4;
+    private Point p5;
+    private Point p6;
+    private Point p7;
+    private Point p8;
+    private Point p9;
+    private Point p10;
+    private Point p11;        
+    private Point p12;    
+    private Point p13;    
+    private Point p14;    
+    private Point p15;    
+    private Point p16;    
+    private Point p17;    
+    private Point p18;    
+    private Point p19;    
+    private Point p20;    
+    private Point p22;    
+    private Point p23;    
+    private Point p24;    
+    private Point p25;    
+    private Point p26;    
+    private Point p27;    
+    private Point p28;    
+    private Point p29;    
+    private Point p30;    
+    private Point p31;    
+    private Point p32;    
+    private Point p33;    
+    private Point p34;    
+    private Point p35;    
+    private Point p36;    
+    private Point p37;    
+    private Point p38;    
+    private Point p39;    
+    private Point p40;    
+    private Point p41;    
     String yEquals = "";
     private boolean isGraphingLine = false;
     private boolean isGraphingParabola = false;
@@ -50,7 +93,73 @@ public class Graphing extends JFrame {
 	
 	if (isGraphingParabola) {
 	        g.setColor(Color.black);
-	    g.drawLine(p1.x,p1.y,p2.x,p2.y);
+//	    g.drawLine(p1.x,p1.y,p2.x,p2.y);
+//	    g.drawLine(p2.x,p2.y,p3.x,p3.y);
+//	    g.drawLine(p3.x,p3.y,p4.x,p4.y);
+//	    g.drawLine(p4.x,p4.y,p5.x,p5.y);
+//	    g.drawLine(p5.x,p5.y,p6.x,p6.y);
+//	    g.drawLine(p6.x,p6.y,p7.x,p7.y);
+//	    g.drawLine(p7.x,p7.y,p8.x,p8.y);
+//	    g.drawLine(p8.x,p8.y,p9.x,p9.y);
+//	    g.drawLine(p9.x,p9.y,p10.x,p10.y);
+//	    g.drawLine(p10.x,p10.y,p11.x,p11.y);
+
+	/*    
+	       for (int i=0; i<401; i+=2) {
+	       	for (int i2=1; i2<402; i2+=2){
+	       
+        	double XforY = (i-200) / 20;
+        	        	double XforY2 = (i2-200) / 20;
+
+        	double l = (aInt * XforY * XforY) + (bInt * XforY) + cInt;
+        	double l2 = (aInt * XforY2 * XforY2) + (bInt * XforY2) + cInt;
+        	
+ 	
+        	
+           l = -20*l + 200;
+            l2 = -20*l2 + 200;
+                            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            
+            g.draw(new Line2D.Double(i, l, i2, l2));
+
+
+
+    	 
+      
+	}}
+	
+	
+	
+	for(int i = 0; i<yValues.length; i++){
+	g.drawLine((int)xValues[i],(int)yValues[i],(int)xValues[i],(int)yValues[i]);
+	
+}
+*/
+
+
+        for(int x=0;x<=400;x+=1){
+        	int x2 = x+1;
+        	double prex = (x - 200) / 20.0;
+        	double prex2 = (x2 - 200) / 20.0;
+            double y = (aInt*prex*prex) + (bInt*prex) + cInt;
+            double y2 = (aInt*prex2*prex2) + (bInt*prex2) + cInt;
+            
+
+            
+            
+            y = (y * -20.0) + 200;
+            y2 = (y2 * -20.0) + 200;
+
+            int Y = (int)y;
+            int Y2 = (int)y2;
+            
+            
+            
+         g.drawLine(x,Y,x2,Y2);
+
+        }
 
         }
 	
@@ -125,43 +234,42 @@ public class Graphing extends JFrame {
 
 	graphArea.setBackground(Color.white);
 	    
-	makeSpace = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
 
 
 	Equals = new JLabel("y= (");
 	slope = new JTextField(5);
 	variable = new JLabel("* x) + ");
 	yInt = new JTextField(5);
-	makeSpace2 = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
 
-	graph = new JButton("Graph!");
+	graphLine = new JButton("Graph a Line!");
+	Equals2 = new JLabel("    y= (");
 
 	A = new JTextField(5);
-	variable = new JLabel("* x) + ");
+	B = new JTextField(5);
+	C = new JTextField(5);
+	variable2 = new JLabel("* x^2) + (");
+		variable3 = new JLabel("* x) +");
+
+	
 	yInt = new JTextField(5);
-	makeSpace2 = new JLabel("<html><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></html>");
 
-	graph = new JButton("Graph!");
+	graphParabola = new JButton("Graph a Quadratic!");
 
-	e.add(makeSpace);
 	e.add(Equals);     
 	e.add(slope);
 	e.add(variable);
 	e.add(yInt);
-		e.add(makeSpace2);
 
 	e.add(graphLine);
 
-
-	e.add(makeSpace);
-	e.add(Equals);     
+	e.add(Equals2);     
 	e.add(A);
-	e.add(variable);
+	e.add(variable2);
 	
 	e.add(B);
+	e.add(variable3);
 	e.add(C);
 
-		e.add(makeSpace2);
 
 	e.add(graphParabola);
 
@@ -183,9 +291,14 @@ public class Graphing extends JFrame {
   
     class ListenGraphLine implements ActionListener {
 	public void actionPerformed(ActionEvent x) {
-	
+		isGraphingParabola = false;
+		    isGraphingLine = false;
+
+		repaint();
+
 	    slopeInt = Integer.parseInt(slope.getText());
 	    yIntInt = Integer.parseInt(yInt.getText());
+
 
 	    p1 = new Point(0, (slopeInt * -10) + yIntInt);
 	    p2 = new Point(400, (slopeInt * 10) + yIntInt);
@@ -201,22 +314,23 @@ public class Graphing extends JFrame {
     
        class ListenGraphParabola implements ActionListener {
 	public void actionPerformed(ActionEvent x) {
-	isGraphingParabola = true;
+		    isGraphingLine = false;
+		isGraphingParabola = false;
+
+	repaint();
+	  
+	  
 	    aInt = Integer.parseInt(A.getText());
 	    bInt = Integer.parseInt(B.getText());
 	    cInt = Integer.parseInt(C.getText());
 
-	for(int w = 1; w<401; w++){
-		p1 = new Point(w-1, (aInt * (w-1)*(w-1)) + (bInt * (w-1)) + cInt);
-		p2 = new Point(w, (aInt * w*w) + (bInt * w) + cInt);
-		repaint();
-	}
-
-
+  
+  isGraphingParabola = true;
+		repaint();	
+		  }}
     
-	}
-    }
-     
+    
+
     public static void main(String [] args) {	
 	Graphing h = new Graphing();
 	h.setVisible(true);
