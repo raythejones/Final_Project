@@ -190,7 +190,6 @@ class ListenCompute implements ActionListener{
     public String solve(String exp1, String exp2){
 	String container ="";
 	boolean parse=true;
-	String variable;
 	if ((hasLetter(exp1) && !hasLetter(exp2))){
 	    container = solver(exp2);
 	    String num="";
@@ -528,6 +527,26 @@ class ListenCompute implements ActionListener{
 	    }
 	    solution=subtract(temp1,temp2);
 	}
+		temp2="";
+	temp1="";
+	parse=true;
+	if (str.indexOf('^')!=-1){
+	    if(Character.isLetter(str.charAt((str.indexOf("^")+1)))){
+		    JOptionPane error = new JOptionPane("Expected number after exponent", JOptionPane.ERROR_MESSAGE);
+		    JDialog message = error.createDialog("ExponentException");
+		    return "Error";
+	    }
+	    parse=true;
+	    for (int x=str.indexOf("-")-1; parse && x>-1; x--){
+		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
+		    temp2=str.charAt(x)+temp2;
+		}
+		else{
+		    parse=false;
+		}
+	    }
+	    solution=subtract(temp1,temp2);
+	}
 	return solution;
     }
     // Basiv math fxns
@@ -549,9 +568,65 @@ class ListenCompute implements ActionListener{
     //Solve polynomials 
 
     public String solvepoly(String exp1, String exp2){
-        return exp1;
+	String container ="";
+	boolean parse=true;
+	if ((hasLetter(exp1) && !hasLetter(exp2))){
+	    container=solver(exp2);
+	    if (greatestExpo(exp1)<=1){
+		int remove=exp1.indexOf('^');
+	        exp1=remove(exp1,remove);
+		exp1=remove(exp1,remove);
+		return solve(exp1, exp2);
+	    }
+	    else{
+		int bigExpo=greatestExpo(exp1);
+		int bigConstant=greatestCon(exp1);
+	    }
+	}
+    	return exp1;
     }
-
+    //Finds greatest constant
+    public int greatestCon(String value){
+	for (int x=0; x<value.length(); x++){
+	    if (Character.isDigit(value.charAt(x))){
+		//Stuff needed to make sure there is no multiplying or dividing of x 
+	    }
+	}
+	return 0;
+    }
+    //Finds greatest power
+    public int greatestExpo(String value){
+	int hold=-1;
+	int greatest=0;
+	String holder="";
+	boolean parse=true;
+	if (value.indexOf('^')!=-1){
+	    for (int x=value.indexOf('^'); x<value.length(); x++){
+		if (value.charAt(x)=='^'){
+		    for (int y=x+1; parse && y<value.length(); y++){
+			if (Character.isDigit(value.charAt(y))){
+			    holder=holder+value.charAt(y);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    if (!holder.equals("")){
+			hold=Integer.parseInt(holder);
+			if (hold>greatest){
+			    greatest=hold;
+			}
+		    }
+		    holder="";
+		}
+	    }
+	}
+	return greatest;
+    }
+    public String remove(String value, int pos) {
+      return value.substring(0, pos) + value.substring(pos + 1);
+   }
 }
     
     
@@ -563,4 +638,3 @@ class ListenCompute implements ActionListener{
 	x.setResizable(false);
     }
 }
-
