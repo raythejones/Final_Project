@@ -59,24 +59,23 @@ class ListenCompute implements ActionListener{
     public void actionPerformed(ActionEvent i){
 	valueLeft=inputLeft.getText();
 	valueRight=inputRight.getText();
-	if ((isExpression(valueLeft) || isExpression(valueRight)) && isSameVar(valueRight,valueLeft)){
-	    /*For polynomials
+	if ((isExpression(valueLeft) || isExpression(valueRight)) && isSameVar(valueRight,valueLeft) && isSomething(valueLeft) && isSomething(valueRight)){
 	    valueLeft=simplify(valueLeft);
 	    valueRight=simplify(valueRight);
 
-	   
-	       if (isExpo(valueLeft) || isExpo(valueRight)){
+	    /*
+	      if (isExpo(valueLeft) || isExpo(valueRight)){
 	           solvepoly(valueLeft
 	       }
 	       else{
 	    */
 
-	    solution=(solve(valueLeft, valueRight));
+	    solution=(solve(removeSpaces(valueLeft), removeSpaces(valueRight)));
 	    output.setText(solution);
 
-	    /*inputLeft.setText("");
+	    inputLeft.setText(removeSpaces(valueLeft));
 	    inputRight.setText("");
-	    */
+	    
 	}
 	else{
 	    JOptionPane error = new JOptionPane("A valid expression must be inputed in both sides of the equation, as well as the same variable.", JOptionPane.ERROR_MESSAGE);
@@ -85,13 +84,22 @@ class ListenCompute implements ActionListener{
 	    message.setVisible(true);
 	}
     }
-    
-    // Checks to see if the query string is an expression
-
-    public boolean isExpression(String value){
+    public String removeSpaces(String value){
+        String holder ="";
+	holder=value.replace(" ", "");
+	return holder;
+    }
+    public boolean isSomething(String value){
 	if (value.equals("")){
 	    return false;
 	}
+	else{
+	    return true;
+	}
+    }
+    // Checks to see if the query string is an expression
+
+    public boolean isExpression(String value){
 	char var=';'; // No such thing as empty char, so an obscure char should work
 	for (int x=0; x<value.length();x++){
 	    if (Character.isLetter(value.charAt(x))){
@@ -101,9 +109,7 @@ class ListenCompute implements ActionListener{
 		else if (var!=value.charAt(x)){
 			return false;
 		    }
-		// Need to implement a method to only have one variable only, possibly in isExpression
-
-	    }
+     	    }
 	}
 	if (var==';'){
 	    return false;
@@ -148,7 +154,7 @@ class ListenCompute implements ActionListener{
 	return has;
     }
     // To simplify long algebraic equations. Follows PEMDAS (For Longer Polynomials)
-    /*
+    
     public String simplify(String value){
 	//Parenthesis
 	boolean isError=false;
@@ -164,128 +170,253 @@ class ListenCompute implements ActionListener{
 		
 	    }
 	}
-	/* Exponents (Not in use until on to polynomials)
-	else if(value.indexOf("^")>-1 && !isError){
+	// Exponents (Not in use until on to polynomials)
+	//	if(value.indexOf("^")>-1 && !isError){
 
-	}
-
-	
-	else if (value.indexOf('*')>-1 && !isError){
+	//}
+	if (value.indexOf('*')>-1 && !isError){
 	   
 	}
 	return value;
     }
-    */
+    
     //Should try to move the constants to one side keeping the variable on the other for monomials expressions, then should either divide or multiply depending on the coefficent.
     
     public String solve(String exp1, String exp2){
 	String container ="";
 	boolean parse=true;
+	String variable;
 	if ((hasLetter(exp1) && !hasLetter(exp2))){
 	    container = solver(exp2);
 	    String num="";
 	    if(exp1.indexOf('+')>-1){
-		for (int x=exp1.indexOf('+') + 1; parse && x<exp1.length(); x++){
-		    if (isNums(exp1.charAt(x))){
-			num=num+exp1.charAt(x);
+		if (Character.isLetter(exp1.charAt(exp1.indexOf('+')+1))){
+		    for (int x=exp1.indexOf('+')-1; parse && x>-1; x--){
+			if(isNums(exp1.charAt(x))){
+			    num=exp1.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=subtract(num, container);
 		}
-		parse=true;
-		inputRight.setText(container);
-		container=subtract(num, container);
+		else{
+		    for (int x=exp1.indexOf('+') + 1; parse && x<exp1.length(); x++){
+			if (isNums(exp1.charAt(x))){
+			    num=num+exp1.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=subtract(num, container);
+		}
 	    }
 	    if(exp1.indexOf('-')>-1){
-		for (int x=exp1.indexOf('-') + 1; parse && x<exp1.length(); x++){
-		    if (isNums(exp1.charAt(x))){
-			num=num+exp1.charAt(x);
+		if (Character.isLetter(exp1.charAt(exp1.indexOf('-')+1))){
+		    for (int x=exp1.indexOf('-')-1; parse && x>-1; x--){
+			if(isNums(exp1.charAt(x))){
+			    num=exp1.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=add(num, container);
 		}
-		parse=true;
-		container=add(container, num);
+		else{
+		    for (int x=exp1.indexOf('-') + 1; parse && x<exp1.length(); x++){
+			if (isNums(exp1.charAt(x))){
+			    num=num+exp1.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=add(num, container);
+		}
 	    }
 	    if(exp1.indexOf('/')>-1){
-		for (int x=exp1.indexOf('/') + 1; parse && x<exp1.length(); x++){
-		    if (isNums(exp1.charAt(x))){
-			num=num+exp1.charAt(x);
+		if (Character.isLetter(exp1.charAt(exp1.indexOf('/')+1))){
+		    for (int x=exp1.indexOf('/')-1; parse && x>-1; x--){
+			if(isNums(exp1.charAt(x))){
+			    num=exp1.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=multiply(num, container);
 		}
-		parse=true;
-		container=multiply(container, num);
+		else{
+		    for (int x=exp1.indexOf('/') + 1; parse && x<exp1.length(); x++){
+			if (isNums(exp1.charAt(x))){
+			    num=num+exp1.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=multiply(num, container);
+		}
 	    }
 	    if(exp1.indexOf('*')>-1){
-		for (int x=exp1.indexOf('*') + 1; parse && x<exp1.length(); x++){
-		    if (isNums(exp1.charAt(x))){
-			num=num+exp1.charAt(x);
+		if (Character.isLetter(exp1.charAt(exp1.indexOf('*')+1))){
+		    for (int x=exp1.indexOf('*')-1; parse && x>-1; x--){
+			if(isNums(exp1.charAt(x))){
+			    num=exp1.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=divide(num, container);
 		}
-		parse=true;
-		container=divide(num, container);
+		else{
+		    for (int x=exp1.indexOf('*') + 1; parse && x<exp1.length(); x++){
+			if (isNums(exp1.charAt(x))){
+			    num=num+exp1.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=divide(num, container);
+		}
 	    }
 	}
 	else if ((!hasLetter(exp1) && hasLetter(exp2))){
 	    String num="";
 	    container= solver(exp1);
-	    if(exp1.indexOf('+')>-1){
-		for (int x=exp2.indexOf('+') + 1; parse && x<exp2.length(); x++){
-		    if (isNums(exp2.charAt(x))){
-			num=num+exp2.charAt(x);
+	    if(exp2.indexOf('+')>-1){
+		if (Character.isLetter(exp2.charAt(exp2.indexOf('+')+1))){
+		    for (int x=exp2.indexOf('+')-1; parse && x>-1; x--){
+			if(isNums(exp2.charAt(x))){
+			    num=exp2.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=subtract(num, container);
 		}
-		parse=true;
-		container=subtract(num, container);
-	    }
-	    else if(exp1.indexOf('-')>-1){
-		for (int x=exp1.indexOf('-') + 1; parse && x<exp2.length(); x++){
-		    if (isNums(exp2.charAt(x))){
-			num=num+exp2.charAt(x);
+		else{
+		    for (int x=exp2.indexOf('+') + 1; parse && x<exp2.length(); x++){
+			if (isNums(exp2.charAt(x))){
+			    num=num+exp2.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=subtract(num, container);
 		}
-		parse=true;
-		container=add(container, num);
 	    }
-	    else if(exp1.indexOf('/')>-1){
-		for (int x=exp2.indexOf('/') + 1; parse && x<exp2.length(); x++){
-		    if (isNums(exp2.charAt(x))){
-			num=num+exp2.charAt(x);
+	    if(exp2.indexOf('-')>-1){
+		if (Character.isLetter(exp2.charAt(exp2.indexOf('-')+1))){
+		    for (int x=exp2.indexOf('-')-1; parse && x>-1; x--){
+			if(isNums(exp2.charAt(x))){
+			    num=exp1.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=add(num, container);
 		}
-		parse=true;
-		container=multiply(container, num);
-	    }
-	    else if(exp1.indexOf('*')>-1){
-		for (int x=exp2.indexOf('*') + 1; parse && x<exp2.length(); x++){
-		    if (isNums(exp2.charAt(x))){
-			num=num+exp2.charAt(x);
+		else{
+		    for (int x=exp2.indexOf('-') + 1; parse && x<exp2.length(); x++){
+			if (isNums(exp2.charAt(x))){
+			    num=num+exp2.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
 		    }
-		    else{
-			parse=false;
-		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=add(num, container);
 		}
-		parse=true;
-		container=divide(num, container);
 	    }
-	    return container;
+	    if(exp2.indexOf('/')>-1){
+		if (Character.isLetter(exp2.charAt(exp2.indexOf('/')+1))){
+		    for (int x=exp2.indexOf('/')-1; parse && x>-1; x--){
+			if(isNums(exp2.charAt(x))){
+			    num=exp2.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=multiply(num, container);
+		}
+		else{
+		    for (int x=exp2.indexOf('/') + 1; parse && x<exp2.length(); x++){
+			if (isNums(exp2.charAt(x))){
+			    num=num+exp2.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=multiply(num, container);
+		}
+	    }
+	    if(exp2.indexOf('*')>-1){
+		if (Character.isLetter(exp2.charAt(exp2.indexOf('*')+1))){
+		    for (int x=exp2.indexOf('*')-1; parse && x>-1; x--){
+			if(isNums(exp2.charAt(x))){
+			    num=exp2.charAt(x)+ num;
+			}
+			else{
+			    parse=true;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=divide(num, container);
+		}
+		else{
+		    for (int x=exp2.indexOf('*') + 1; parse && x<exp2.length(); x++){
+			if (isNums(exp2.charAt(x))){
+			    num=num+exp2.charAt(x);
+			}
+			else{
+			    parse=false;
+			}
+		    }
+		    parse=true;
+		    inputRight.setText(container);
+		    container=divide(num, container);
+		}
+	    }
 	}
 	return container;
     }
@@ -393,6 +524,7 @@ class ListenCompute implements ActionListener{
 	}
 	return solution;
     }
+
     
     public String multiply(String x, String y){
 	return ""+ (Integer.parseInt(x)*Integer.parseInt(y));
