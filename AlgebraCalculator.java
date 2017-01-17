@@ -60,11 +60,11 @@ class ListenCompute implements ActionListener{
 	valueLeft=inputLeft.getText();
 	valueRight=inputRight.getText();
 	if ((isExpression(valueLeft) || isExpression(valueRight)) && isSameVar(valueRight,valueLeft) && isSomething(valueLeft) && isSomething(valueRight)){
-	    valueLeft=simplify(valueLeft);
-	    valueRight=simplify(valueRight);
 	    if (isExpo(valueLeft) || isExpo(valueRight)){
-		solution=(solvepoly(removeSpaces(valueLeft), removeSpaces(valueRight)));
-		output.setText(solution);
+		JOptionPane error = new JOptionPane("A valid expression must be inputed in both sides of the equation, as well as the same variable.Exponent and Polynomials aren't supported. Please put a valid expression.", JOptionPane.ERROR_MESSAGE);
+		JDialog message = error.createDialog("InvalidPolyException");
+		message.setAlwaysOnTop(true);
+		message.setVisible(true); 
 	    }
 	    else{
 		solution=(solve(removeSpaces(valueLeft), removeSpaces(valueRight)));
@@ -162,30 +162,7 @@ class ListenCompute implements ActionListener{
 	}
 	return has;
     }
-    // To simplify long algebraic equations. Follows PEMDAS (For Longer Polynomials)
-    
-    public String simplify(String value){
-	//Parenthesis
-	boolean isError=false;
-	if (value.indexOf('(')>-1 || value.indexOf(')')>-1 ){
-	    if (value.indexOf(')')==-1 || value.indexOf('(')==-1){
-		JOptionPane error = new JOptionPane("Expected open/close parenthesis", JOptionPane.ERROR_MESSAGE);
-		JDialog message = error.createDialog("ParenthesisException");
-		message.setAlwaysOnTop(true);
-		message.setVisible(true);
-		isError=true;
-	    }
-	    else{
-		
-	    }
-	}
-	if (value.indexOf('*')>-1 && !isError){
-	   
-	}
-	return value;
-    }
-    
-    //Should try to move the constants to one side keeping the variable on the other for monomials expressions, then should either divide or multiply depending on the coefficent.
+      //Should try to move the constants to one side keeping the variable on the other for monomials expressions, then should either divide or multiply depending on the coefficent.
     
     public String solve(String exp1, String exp2){
 	String container ="";
@@ -221,6 +198,7 @@ class ListenCompute implements ActionListener{
 		    container=subtract(num, container);
 		}
 	    }
+	    num="";
 	    if(exp1.indexOf('-')>-1){
 		if (Character.isLetter(exp1.charAt(exp1.indexOf('-')+1))){
 		    for (int x=exp1.indexOf('-')-1; parse && x>-1; x--){
@@ -249,6 +227,7 @@ class ListenCompute implements ActionListener{
 		    container=add(num, container);
 		}
 	    }
+	    num="";
 	    if(exp1.indexOf('/')>-1){
 		if (Character.isLetter(exp1.charAt(exp1.indexOf('/')+1))){
 		    for (int x=exp1.indexOf('/')-1; parse && x>-1; x--){
@@ -277,6 +256,7 @@ class ListenCompute implements ActionListener{
 		    container=multiply(num, container);
 		}
 	    }
+	    num="";
 	    if(exp1.indexOf('*')>-1){
 		if (Character.isLetter(exp1.charAt(exp1.indexOf('*')+1))){
 		    for (int x=exp1.indexOf('*')-1; parse && x>-1; x--){
@@ -306,6 +286,7 @@ class ListenCompute implements ActionListener{
 		}
 	    }
 	}
+	
 	else if ((!hasLetter(exp1) && hasLetter(exp2))){
 	    String num="";
 	    container= solver(exp1);
@@ -337,6 +318,7 @@ class ListenCompute implements ActionListener{
 		    container=subtract(num, container);
 		}
 	    }
+	    num="";
 	    if(exp2.indexOf('-')>-1){
 		if (Character.isLetter(exp2.charAt(exp2.indexOf('-')+1))){
 		    for (int x=exp2.indexOf('-')-1; parse && x>-1; x--){
@@ -365,6 +347,7 @@ class ListenCompute implements ActionListener{
 		    container=add(num, container);
 		}
 	    }
+	    num="";
 	    if(exp2.indexOf('/')>-1){
 		if (Character.isLetter(exp2.charAt(exp2.indexOf('/')+1))){
 		    for (int x=exp2.indexOf('/')-1; parse && x>-1; x--){
@@ -393,6 +376,7 @@ class ListenCompute implements ActionListener{
 		    container=multiply(num, container);
 		}
 	    }
+	    num="";
 	    if(exp2.indexOf('*')>-1){
 		if (Character.isLetter(exp2.charAt(exp2.indexOf('*')+1))){
 		    for (int x=exp2.indexOf('*')-1; parse && x>-1; x--){
@@ -527,26 +511,6 @@ class ListenCompute implements ActionListener{
 	    }
 	    solution=subtract(temp1,temp2);
 	}
-		temp2="";
-	temp1="";
-	parse=true;
-	if (str.indexOf('^')!=-1){
-	    if(Character.isLetter(str.charAt((str.indexOf("^")+1)))){
-		    JOptionPane error = new JOptionPane("Expected number after exponent", JOptionPane.ERROR_MESSAGE);
-		    JDialog message = error.createDialog("ExponentException");
-		    return "Error";
-	    }
-	    parse=true;
-	    for (int x=str.indexOf("-")-1; parse && x>-1; x--){
-		if (isNums(str.charAt(x)) || str.charAt(x)=='.'){
-		    temp2=str.charAt(x)+temp2;
-		}
-		else{
-		    parse=false;
-		}
-	    }
-	    solution=subtract(temp1,temp2);
-	}
 	return solution;
     }
     // Basiv math fxns
@@ -562,68 +526,8 @@ class ListenCompute implements ActionListener{
     public String add(String x,String y){
 	return ""+ (Double.parseDouble(x)+Double.parseDouble(y));
     }
-    public String expo(String x, String y){
-	return ""+ (Math.pow(Double.parseDouble(x), Double.parseDouble(y)));
-    }
-    //Solve polynomials 
 
-    public String solvepoly(String exp1, String exp2){
-	String container ="";
-	boolean parse=true;
-	if ((hasLetter(exp1) && !hasLetter(exp2))){
-	    container=solver(exp2);
-	    if (greatestExpo(exp1)<=1){
-		int remove=exp1.indexOf('^');
-	        exp1=remove(exp1,remove);
-		exp1=remove(exp1,remove);
-		return solve(exp1, exp2);
-	    }
-	    else{
-		int bigExpo=greatestExpo(exp1);
-		int bigConstant=greatestCon(exp1);
-	    }
-	}
-    	return exp1;
-    }
-    //Finds greatest constant
-    public int greatestCon(String value){
-	for (int x=0; x<value.length(); x++){
-	    if (Character.isDigit(value.charAt(x))){
-		//Stuff needed to make sure there is no multiplying or dividing of x 
-	    }
-	}
-	return 0;
-    }
-    //Finds greatest power
-    public int greatestExpo(String value){
-	int hold=-1;
-	int greatest=0;
-	String holder="";
-	boolean parse=true;
-	if (value.indexOf('^')!=-1){
-	    for (int x=value.indexOf('^'); x<value.length(); x++){
-		if (value.charAt(x)=='^'){
-		    for (int y=x+1; parse && y<value.length(); y++){
-			if (Character.isDigit(value.charAt(y))){
-			    holder=holder+value.charAt(y);
-			}
-			else{
-			    parse=false;
-			}
-		    }
-		    parse=true;
-		    if (!holder.equals("")){
-			hold=Integer.parseInt(holder);
-			if (hold>greatest){
-			    greatest=hold;
-			}
-		    }
-		    holder="";
-		}
-	    }
-	}
-	return greatest;
-    }
+       
     public String remove(String value, int pos) {
       return value.substring(0, pos) + value.substring(pos + 1);
    }
